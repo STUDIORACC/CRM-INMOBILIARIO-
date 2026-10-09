@@ -32,7 +32,7 @@ export function ClientsTable({ rows, total, page, pageSize, sort, dir }: { rows:
       sortKey: "full_name",
       cell: (c) => (
         <div className="flex min-w-[13rem] items-center gap-3">
-          <UserAvatar name={c.full_name} size="md" />
+          <UserAvatar name={c.full_name} src={c.avatar_url} size="md" />
           <div className="min-w-0">
             <Link href={`/clients/${c.id}`} className="block truncate text-sm font-semibold hover:text-primary">
               {c.full_name}
@@ -100,7 +100,7 @@ export function ClientsTable({ rows, total, page, pageSize, sort, dir }: { rows:
       mobileCard={(c) => (
         <div className="rounded-xl border bg-card p-3.5 shadow-card">
           <div className="flex items-start gap-3">
-            <UserAvatar name={c.full_name} size="md" />
+            <UserAvatar name={c.full_name} src={c.avatar_url} size="md" />
             <div className="min-w-0 flex-1">
               <Link href={`/clients/${c.id}`} className="block truncate text-[15px] font-semibold">
                 {c.full_name}

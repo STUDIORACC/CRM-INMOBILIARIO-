@@ -79,7 +79,7 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
       <section className="mb-5 rounded-2xl border bg-card p-5 shadow-card">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex min-w-0 items-start gap-4">
-            <UserAvatar name={lead.full_name} size="xl" />
+            <UserAvatar name={lead.full_name} src={lead.avatar_url} size="xl" />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="truncate text-2xl font-semibold">{lead.full_name}</h1>

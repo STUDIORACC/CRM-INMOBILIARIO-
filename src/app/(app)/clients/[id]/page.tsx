@@ -71,7 +71,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
       <section className="mb-5 rounded-2xl border bg-card p-5 shadow-card">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex min-w-0 items-start gap-4">
-            <UserAvatar name={client.full_name} size="xl" />
+            <UserAvatar name={client.full_name} src={client.avatar_url} size="xl" />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="truncate text-2xl font-semibold">{client.full_name}</h1>

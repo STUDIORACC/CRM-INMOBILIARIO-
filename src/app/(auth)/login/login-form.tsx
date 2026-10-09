@@ -14,6 +14,7 @@ interface DemoAccount {
   role: string;
   name: string;
   email: string;
+  avatarUrl?: string | null;
 }
 
 const DEMO_PASSWORD = "Demo2026!";
@@ -109,7 +110,7 @@ export function LoginForm({ next, demoAccounts }: { next?: string; demoAccounts:
                 }}
                 className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2.5 text-left transition-colors hover:border-primary/40 hover:bg-accent/40 disabled:opacity-60"
               >
-                <UserAvatar name={a.name} size="md" />
+                <UserAvatar name={a.name} src={a.avatarUrl} size="md" />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-medium">{a.name}</span>
                   <span className="block text-xs text-muted-foreground">{a.role}</span>

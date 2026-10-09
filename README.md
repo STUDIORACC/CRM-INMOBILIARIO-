@@ -152,7 +152,7 @@ tests/                 unit/ (reglas puras) · integration/ (flujos completos co
 |---|---|
 | `npm run dev` / `build` / `start` | Desarrollo y producción |
 | `npm run typecheck` · `npm run lint` | Calidad estática |
-| `npm test` | 97 pruebas: reglas puras + flujos completos contra Postgres con RLS |
+| `npm test` | 101 pruebas: reglas puras + flujos completos contra Postgres con RLS |
 | `npm run db:migrate` | Aplica migraciones pendientes (Supabase) |
 | `npm run db:create-admin -- --email … --name … --password …` | Primer administrador |
 | `npm run db:seed -- --confirm` | Datos ficticios en una base **de pruebas** |
@@ -172,6 +172,7 @@ auditoría y exportación.
 - La integración con WhatsApp es por enlace `wa.me` con plantillas (abre la conversación con el mensaje listo); no envía mensajes
   automáticos ni usa la API oficial de WhatsApp Business.
 - Las imágenes de demostración son de Unsplash (se cargan por URL). En producción se suben a Supabase Storage.
+- **Fotos de perfil:** en la demo, los asesores y unos 30 clientes tienen retratos de Unsplash (licencia Unsplash, hotlink a su CDN, recortados al rostro) elegidos por su aspecto latinoamericano; son personas reales ajenas al sistema que solo ilustran perfiles ficticios, y no implican origen ni nacionalidad alguna. Quien no tiene foto muestra sus iniciales. En una instalación real, `users.avatar_url`, `clients.avatar_url` y `leads.avatar_url` parten vacíos hasta cargar la foto verdadera de cada persona. Las fotos de demostración se definen en `src/lib/seed/avatars.ts`.
 - Los datos ficticios usan nombres, teléfonos y correos inventados; los correos usan el dominio reservado `example`.
 - Roadmap natural: integración con portales (Urbania/Adondevivir/Mercado Libre), firma y contratos, comisiones y liquidaciones,
   app móvil con notificaciones push, y vistas materializadas para reportes con cientos de miles de registros.

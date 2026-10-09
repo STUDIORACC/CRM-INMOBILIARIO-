@@ -7,6 +7,7 @@ import { recomputeLeadScores } from "../services/lead-score";
 import { refreshDerivedFields } from "../services/maintenance";
 import { syncAlertNotifications } from "../services/alerts";
 import { Clock, bulkInsert, minimalPdf, mkActivity, mkTask, mkVisit, uuid, TEXT, type Row } from "./builders";
+import { STAFF_PORTRAITS, assignPortraits, portraitUrl } from "./avatars";
 import { COMPANY_NAMES, dniFor, emailFor, phoneFor, randomPerson, rucFor } from "./names";
 import { DISTRICTS, generateProperties } from "./properties";
 import { DAY, HOUR, MIN, Rng } from "./rng";
@@ -80,7 +81,7 @@ export async function seedDemo(db: Db, hooks: SeedHooks, opts: { now?: Date; see
       full_name: u.name,
       email: u.email,
       phone: u.phone,
-      avatar_url: `https://api.dicebear.com/9.x/notionists-neutral/svg?seed=${encodeURIComponent(u.name)}&backgroundColor=e0e7ff,fce7f3,dcfce7,fef3c7,e0f2fe`,
+      avatar_url: STAFF_PORTRAITS[u.key] ? portraitUrl(STAFF_PORTRAITS[u.key]) : null,
       role: u.role,
       status: "active",
       hired_at: u.hired,
@@ -510,6 +511,9 @@ export async function seedDemo(db: Db, hooks: SeedHooks, opts: { now?: Date; see
   // Lo más antiguo ya se leyó
   await db.query(`update public.notifications set read_at = created_at + interval '3 hours' where created_at < now() - interval '30 hours'`);
   await db.query(`update public.notifications set read_at = created_at + interval '40 minutes' where read_at is null and random() < 0.15`);
+
+  // --- Fotos de perfil -------------------------------------------------------------------------------------------------------------
+  await assignPortraits(db);
 
   await setTriggers(db, true);
   await db.query("analyze");

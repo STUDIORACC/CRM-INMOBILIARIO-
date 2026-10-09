@@ -160,7 +160,7 @@ export function LeadsTable({ rows, total, page, pageSize, sort, dir }: { rows: L
       sortKey: "full_name",
       cell: (l) => (
         <div className="flex min-w-[13rem] items-center gap-3">
-          <UserAvatar name={l.full_name} size="md" />
+          <UserAvatar name={l.full_name} src={l.avatar_url} size="md" />
           <div className="min-w-0">
             <Link href={`/leads/${l.id}`} className="block truncate text-sm font-semibold hover:text-primary">
               {l.full_name}
@@ -261,7 +261,7 @@ export function LeadsTable({ rows, total, page, pageSize, sort, dir }: { rows: L
       mobileCard={(l) => (
         <div className="rounded-xl border bg-card p-3.5 shadow-card">
           <div className="flex items-start gap-3">
-            <UserAvatar name={l.full_name} size="md" />
+            <UserAvatar name={l.full_name} src={l.avatar_url} size="md" />
             <div className="min-w-0 flex-1">
               <Link href={`/leads/${l.id}`} className="block truncate text-[15px] font-semibold">
                 {l.full_name}

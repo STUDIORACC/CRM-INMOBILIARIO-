@@ -25,6 +25,7 @@ export interface TagRef {
 export interface LeadListRow {
   id: string;
   full_name: string;
+  avatar_url: string | null;
   phone: string | null;
   email: string | null;
   source: string;
@@ -92,7 +93,7 @@ export function leadFilters(q: LeadListQuery, thresholds: Awaited<ReturnType<typ
 
 const LIST_FROM = `from public.leads l left join public.properties p on p.id = l.property_id`;
 
-const LIST_COLUMNS = `l.id, l.full_name, l.phone, l.email, l.source, l.stage, l.priority, l.score, l.temperature, l.assigned_to,
+const LIST_COLUMNS = `l.id, l.full_name, l.avatar_url, l.phone, l.email, l.source, l.stage, l.priority, l.score, l.temperature, l.assigned_to,
   l.property_id, p.code as property_code, p.title as property_title, l.last_activity_at, l.next_follow_up_at, l.next_follow_up_title,
   l.created_at, l.client_id, l.operation_type, l.property_type, l.districts, l.budget_min, l.budget_max, l.currency, l.interest_level, l.lost_reason,
   (select coalesce(json_agg(json_build_object('id', t.id, 'name', t.name, 'color', t.color) order by t.name), '[]'::json)
@@ -126,6 +127,7 @@ export async function exportLeads(db: Db, q: LeadListQuery, max = 20000): Promis
 export interface LeadDetail {
   id: string;
   full_name: string;
+  avatar_url: string | null;
   phone: string | null;
   email: string | null;
   source: string;

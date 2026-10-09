@@ -14,6 +14,7 @@ import { findDuplicates, type DuplicateMatch, type TagRef } from "./leads";
 export interface ClientListRow {
   id: string;
   full_name: string;
+  avatar_url: string | null;
   phone: string | null;
   email: string | null;
   doc_type: string | null;
@@ -61,7 +62,7 @@ async function clientFilters(db: Db, q: ClientListQuery): Promise<Filters> {
   return f;
 }
 
-const COLUMNS = `c.id, c.full_name, c.phone, c.email, c.doc_type, c.doc_number, c.source, c.assigned_to, c.operation_type, c.property_type, c.budget_min, c.budget_max,
+const COLUMNS = `c.id, c.full_name, c.avatar_url, c.phone, c.email, c.doc_type, c.doc_number, c.source, c.assigned_to, c.operation_type, c.property_type, c.budget_min, c.budget_max,
   c.currency, c.districts, c.last_activity_at, c.created_at, c.status,
   (select count(*) from public.opportunities o join public.pipeline_stages s on s.key = o.stage and s.kind = 'open' where o.client_id = c.id)::int as open_opportunities,
   (select count(*) from public.visits v where v.client_id = c.id and v.status = 'completed')::int as visits_done,

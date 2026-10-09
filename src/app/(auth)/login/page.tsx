@@ -34,12 +34,23 @@ async function getBranding() {
   }
 }
 
+/** Fotos de las cuentas de demostración (solo en modo demo). */
+async function getDemoAccounts() {
+  try {
+    const rows = await withAdmin((db) => db.query<{ email: string; avatar_url: string | null }>("select email, avatar_url from public.users where email = any($1::text[])", [DEMO_ACCOUNTS.map((a) => a.email)]));
+    return DEMO_ACCOUNTS.map((a) => ({ ...a, avatarUrl: rows.find((r) => r.email === a.email)?.avatar_url ?? null }));
+  } catch {
+    return DEMO_ACCOUNTS;
+  }
+}
+
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
   const { next } = await searchParams;
   // Con una sesión válida no tiene sentido mostrar el login (una cookie obsoleta sí lo muestra)
   if (await getSession()) redirect(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
   const brand = await getBranding();
   const demo = isDemoMode();
+  const demoAccounts = demo ? await getDemoAccounts() : [];
 
   return (
     <div className="grid min-h-dvh lg:grid-cols-[1.05fr_1fr]">
@@ -87,7 +98,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <h2 className="text-2xl font-semibold tracking-tight">Inicia sesión</h2>
           <p className="mt-1.5 text-sm text-muted-foreground">Ingresa con tu correo corporativo para continuar.</p>
 
-          <LoginForm next={next} demoAccounts={demo ? DEMO_ACCOUNTS : []} />
+          <LoginForm next={next} demoAccounts={demoAccounts} />
 
           {demo && (
             <p className="mt-6 flex items-start gap-2 rounded-lg bg-primary/5 px-3 py-2.5 text-xs text-muted-foreground">
