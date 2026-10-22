@@ -32,7 +32,7 @@ Entra con cualquiera de los usuarios de la pantalla de login (contraseña `Demo2
 | Asistente | daniela.quispe@altura.example | Leads y visitas de todos; sin oportunidades ni propietarios |
 
 Los datos quedan en `.data/` (ignorado por git). `npm run demo:reset` (con el servidor detenido) vuelve al estado inicial.
-En Vercel el modo demo corre en memoria y se reinicia con cada arranque en frío.
+En Vercel el modo demo corre en memoria: la primera visita tras un arranque en frío tarda unos segundos en sembrar los datos, y los cambios de los visitantes se pierden al reciclarse la instancia. Define `DEMO_SESSION_SECRET` en las variables de entorno.
 
 ---
 
@@ -48,7 +48,7 @@ En Vercel el modo demo corre en memoria y se reinicia con cada arranque en frío
    | `SUPABASE_SERVICE_ROLE_KEY` | **Solo servidor**: alta de usuarios y Storage |
    | `DATABASE_URL` | Conexión SQL (al definirla se desactiva el modo demo) |
    | `NEXT_PUBLIC_TIMEZONE`, `NEXT_PUBLIC_DEFAULT_COUNTRY_CODE` | `America/Lima`, `51` |
-   | `CRON_SECRET` | Protege `/api/cron/alerts` (Vercel Cron la llama cada 15 min) |
+   | `CRON_SECRET` | Protege `/api/cron/alerts` (Vercel Cron la llama una vez al día, compatible con el plan Hobby; en Pro puedes usar `*/15 * * * *` en `vercel.json`) |
 
 3. **Aplica las migraciones y crea el administrador:**
 
