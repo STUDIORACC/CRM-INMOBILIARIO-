@@ -1,5 +1,6 @@
 import "server-only";
 import fs from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { isDemoMode } from "@/lib/db";
 
@@ -32,7 +33,11 @@ export const ALLOWED_DOC_TYPES = new Set([
 ]);
 export const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
 
-const localRoot = () => path.join(/*turbopackIgnore: true*/ process.cwd(), process.env.DEMO_UPLOAD_DIR ?? ".data/uploads");
+// En Vercel el sistema de archivos del despliegue es de solo lectura: solo /tmp admite escritura (efímero, como la base en memoria)
+const localRoot = () =>
+  process.env.VERCEL
+    ? path.join(os.tmpdir(), "crm-uploads")
+    : path.join(/*turbopackIgnore: true*/ process.cwd(), process.env.DEMO_UPLOAD_DIR ?? ".data/uploads");
 
 function safeRelative(p: string): string {
   const normalized = path.posix.normalize(p).replace(/^(\.\.(\/|\|$))+/, "");
